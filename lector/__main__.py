@@ -482,7 +482,22 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
         if not opened_files[0]:
             return
+        print(opened_files)
+        #### tank
+        n=0
+        for filename in opened_files[0]:
+            # if type(filename)== str():
+            ext = os.path.splitext(filename)
+            if ext[1].lower()==".cbz":
+                import lector.parsers.REPACK_cbz as REPACK_cbz
+                if not REPACK_cbz.zipfile.is_zipfile(filename) :
+                    opened_files[0][n] = REPACK_cbz.do_rpk(filename,True)
+            n=n+1 
+        # for book in opened_files:
+        #             if 
 
+        print(opened_files)
+        
         self.settingsDialog.okButton.setEnabled(False)
         self.libraryToolBar.reloadLibraryButton.setEnabled(False)
 

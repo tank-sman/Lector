@@ -73,7 +73,7 @@ class ParseCOMIC:
         return toc, self.image_list, True
 
 def is_image(filename):
-    valid_image_extensions = ['.png', '.jpg', '.bmp']
+    valid_image_extensions = ['.png', '.jpg', '.bmp',".webp"]
     if os.path.splitext(filename)[1].lower() in valid_image_extensions:
         return True
     else:
