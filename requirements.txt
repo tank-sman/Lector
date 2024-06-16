@@ -5,3 +5,6 @@ PyQt5
 PyQt5-sip
 soupsieve
 xmltodict
+# djvulibre
+markdown 
+textile

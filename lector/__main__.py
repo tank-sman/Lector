@@ -434,15 +434,20 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         logger.info(
             'Attempting to open: ' + ', '.join(file_paths))
 
-        contents, errors = sorter.BookSorter(
-            file_paths,
-            ('reading', None),
-            self.database_path,
-            self.settings,
-            self.temp_dir.path()).initiate_threads()
-
-        if errors:
+        try:
+            contents, errors = sorter.BookSorter(
+                file_paths,
+                ('reading', None),
+                self.database_path,
+                self.settings,
+                self.temp_dir.path()).initiate_threads()
+            if errors:
+                self.display_error_notification(errors)
+        
+        except TypeError as errors:
             self.display_error_notification(errors)
+            self.display_error_notification("______Can't open File______")
+            contents = []
 
         if not contents:
             logger.error('No parseable files found')
