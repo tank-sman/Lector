@@ -55,6 +55,7 @@ class SettingsUI(QtWidgets.QDialog, settingswindow.Ui_Dialog):
         install_dir = os.path.realpath(__file__)
         install_dir = pathlib.Path(install_dir).parents[1]
         aboutfile_path = os.path.join(install_dir, 'lector', 'resources', 'about.html')
+        
         with open(aboutfile_path) as about_html:
             html = about_html.readlines()
             html.insert(

@@ -22,6 +22,7 @@ import sys
 import hashlib
 import pathlib
 
+
 # This allows for the program to be launched from the
 # dir where it's been copied instead of needing to be
 # installed
@@ -49,6 +50,8 @@ from lector.guifunctions import QImageFactory, CoverLoadingAndCulling, ViewProfi
 from lector.settings import Settings
 from lector.settingsdialog import SettingsUI
 from lector.metadatadialog import MetadataUI
+from lector.DLdialog import DownloadUI
+from lector.DownloadP import Downloader
 from lector.definitionsdialog import DefinitionsUI
 from lector.resources import mainwindow, resources
 
@@ -78,6 +81,7 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
         # Empty variables that will be infested soon
         self.settings = {}
+        self.DownLoader = {}
         self.thread = None  # Background Thread
         self.current_contentView = None  # For fullscreening purposes
         self.display_profiles = None
@@ -90,7 +94,9 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
         # Initialize application
         Settings(self).read_settings()  # This should populate all variables that need
                                         # to be remembered across sessions
+        Downloader(self).readWindow()
 
+        
         # Initialize icon factory
         self.QImageFactory = QImageFactory(self)
 
@@ -114,6 +120,9 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
 
         # Initialize settings dialog
         self.settingsDialog = SettingsUI(self)
+
+        # Initialize settings dialog
+        self.DownloadDialog = DownloadUI(self)
 
         # Initialize metadata dialog
         self.metadataDialog = MetadataUI(self)
@@ -176,6 +185,10 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
             lambda: self.show_settings(0))
         self.libraryToolBar.aboutButton.triggered.connect(
             lambda: self.show_settings(3))
+        
+        self.libraryToolBar.DownloadButton.triggered.connect(
+            lambda: self.show_download())
+        
         self.libraryToolBar.searchBar.textChanged.connect(self.lib_ref.update_proxymodels)
         self.libraryToolBar.sortingBox.activated.connect(self.lib_ref.update_proxymodels)
         self.libraryToolBar.libraryFilterButton.setPopupMode(QtWidgets.QToolButton.InstantPopup)
@@ -763,6 +776,14 @@ class MainUI(QtWidgets.QMainWindow, mainwindow.Ui_MainWindow):
             self.settingsDialog.listView.setCurrentIndex(index)
         else:
             self.settingsDialog.hide()
+
+    def show_download(self):
+        if self.DownLoader=={}:
+            self.DownLoader=Downloader().readWindow()
+        if not self.DownloadDialog.isVisible():
+            self.DownloadDialog.show()
+        else:
+            self.DownloadDialog.hide()
 
     #==================================================================
     # The contentView modification functions are in the guifunctions

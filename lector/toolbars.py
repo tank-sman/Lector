@@ -445,7 +445,12 @@ class LibraryToolBar(QtWidgets.QToolBar):
             image_factory.get_image('about'),
             self._translate('LibraryToolBar', 'About'),
             self)
-
+        
+        self.DownloadButton = QtWidgets.QAction(
+            image_factory.get_image('filesaveas'),
+            self._translate('LibraryToolBar', 'Download New Book'),
+            self)
+        
         # Auto unchecks the other QToolButton in case of clicking
         self.viewButtons = QtWidgets.QActionGroup(self)
         self.viewButtons.setExclusive(True)
@@ -465,7 +470,7 @@ class LibraryToolBar(QtWidgets.QToolBar):
         self.addAction(self.colorButton)
         self.addAction(self.settingsButton)
         self.addAction(self.aboutButton)
-
+        self.addAction(self.DownloadButton)
         # Filter
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
